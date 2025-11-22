@@ -1,0 +1,71 @@
+# Git attributes for consistent line endings and file handling
+# https://git-scm.com/docs/gitattributes
+
+# Auto detect text files and normalize line endings to LF
+* text=auto eol=lf
+
+# Source code
+*.js text eol=lf
+*.json text eol=lf
+
+# Documentation
+*.md text eol=lf
+*.txt text eol=lf
+
+# XML files
+*.xml text eol=lf
+
+# Configuration files
+.editorconfig text eol=lf
+.gitattributes text eol=lf
+.gitignore text eol=lf
+.jpmignore text eol=lf
+
+# Makefile must have LF (make doesn't work with CRLF)
+Makefile text eol=lf
+
+# Patch files - preserve exact format
+*.patch binary
+
+# XPI files are ZIP archives
+*.xpi binary
+
+# Images
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.svg text
+
+# Archives
+*.zip binary
+*.tar binary
+*.gz binary
+*.bz2 binary
+
+# Common binary formats
+*.pdf binary
+*.exe binary
+*.dll binary
+*.so binary
+*.dylib binary
+
+# Linguist overrides (for GitHub language statistics)
+*.md linguist-documentation
+*.txt linguist-documentation
+test/* linguist-documentation=false
+*.js linguist-language=JavaScript
+
+# Git diff settings
+*.json diff=json
+*.md diff=markdown
+
+# Export settings (for git archive)
+.gitattributes export-ignore
+.gitignore export-ignore
+.editorconfig export-ignore
+.github/ export-ignore
+test/ export-ignore
+*.md export-ignore
+Makefile export-ignore

@@ -1,0 +1,52 @@
+# EditorConfig helps maintain consistent coding styles
+# https://editorconfig.org/
+
+# Top-level EditorConfig file
+root = true
+
+# Default settings for all files
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 2
+
+# JavaScript files
+[*.js]
+indent_style = space
+indent_size = 2
+
+# JSON files
+[*.json]
+indent_style = space
+indent_size = 2
+
+# Markdown files
+[*.md]
+trim_trailing_whitespace = false
+indent_size = 2
+
+# YAML files
+[*.{yml,yaml}]
+indent_style = space
+indent_size = 2
+
+# Makefile requires tabs
+[Makefile]
+indent_style = tab
+indent_size = 4
+
+# XML files (for MODS, DC, etc.)
+[*.xml]
+indent_style = space
+indent_size = 2
+
+# Patch files should not be modified
+[*.patch]
+end_of_line = unset
+insert_final_newline = unset
+trim_trailing_whitespace = unset
+indent_style = unset
+indent_size = unset
