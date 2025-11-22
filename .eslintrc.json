@@ -1,0 +1,99 @@
+{
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "extends": "eslint:recommended",
+  "rules": {
+    // Style
+    "indent": ["error", 2, { "SwitchCase": 1 }],
+    "linebreak-style": ["error", "unix"],
+    "quotes": ["error", "single", { "avoidEscape": true }],
+    "semi": ["error", "always"],
+    "comma-dangle": ["error", "never"],
+    "no-trailing-spaces": "error",
+    "eol-last": ["error", "always"],
+
+    // Variables
+    "no-var": "error",
+    "prefer-const": "error",
+    "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+
+    // ES6
+    "arrow-spacing": "error",
+    "prefer-arrow-callback": "error",
+    "prefer-template": "error",
+    "template-curly-spacing": "error",
+    "object-shorthand": ["error", "always"],
+
+    // Best Practices
+    "eqeqeq": ["error", "always"],
+    "no-eval": "error",
+    "no-implied-eval": "error",
+    "no-with": "error",
+    "curly": ["error", "all"],
+    "brace-style": ["error", "1tbs"],
+
+    // Error Prevention
+    "no-console": "off",
+    "no-debugger": "warn",
+    "no-alert": "warn",
+    "no-throw-literal": "error",
+
+    // Code Quality
+    "complexity": ["warn", 15],
+    "max-depth": ["warn", 4],
+    "max-lines-per-function": ["warn", { "max": 150, "skipBlankLines": true, "skipComments": true }],
+    "max-params": ["warn", 5],
+
+    // JSDoc
+    "valid-jsdoc": ["warn", {
+      "requireReturn": false,
+      "requireReturnDescription": false,
+      "requireParamDescription": true,
+      "prefer": {
+        "return": "returns"
+      }
+    }],
+    "require-jsdoc": ["warn", {
+      "require": {
+        "FunctionDeclaration": true,
+        "MethodDefinition": true,
+        "ClassDeclaration": true,
+        "ArrowFunctionExpression": false
+      }
+    }]
+  },
+  "globals": {
+    // Firefox Add-on SDK
+    "require": "readonly",
+    "exports": "readonly",
+    "module": "readonly",
+
+    // Zotero-specific
+    "Zotero": "readonly",
+    "Components": "readonly",
+    "Services": "readonly",
+    "Cu": "readonly",
+    "Cc": "readonly",
+    "Ci": "readonly"
+  },
+  "overrides": [
+    {
+      "files": ["test/*.js"],
+      "env": {
+        "mocha": true
+      },
+      "rules": {
+        "no-console": "off",
+        "max-lines-per-function": "off",
+        "require-jsdoc": "off"
+      }
+    }
+  ]
+}
