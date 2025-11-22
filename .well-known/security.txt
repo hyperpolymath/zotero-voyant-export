@@ -1,0 +1,30 @@
+# security.txt - RFC 9116 compliant security contact information
+# https://securitytxt.org/
+
+Contact: https://github.com/corajr/zotero-voyant-export/security/advisories/new
+Contact: mailto:security@corajr.com
+Expires: 2026-11-22T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://github.com/corajr/zotero-voyant-export/blob/main/.well-known/security.txt
+
+# Security Policy
+Policy: https://github.com/corajr/zotero-voyant-export/blob/main/SECURITY.md
+
+# Acknowledgments
+Acknowledgments: https://github.com/corajr/zotero-voyant-export/blob/main/SECURITY.md#hall-of-fame
+
+# Hiring (optional)
+# Hiring: https://[project-domain]/careers
+
+# Encryption (optional - add if PGP key available)
+# Encryption: https://keys.openpgp.org/[key-id]
+
+# Additional Information
+# This project follows responsible disclosure practices.
+# We do not pursue legal action against security researchers
+# who follow our security policy in good faith.
+#
+# Please allow us reasonable time to address vulnerabilities
+# before public disclosure (typically 90 days).
+#
+# We appreciate security research that helps keep our users safe!

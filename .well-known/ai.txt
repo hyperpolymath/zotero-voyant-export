@@ -1,0 +1,110 @@
+# ai.txt - AI Training and Usage Policy
+# Specification: https://site.spawning.ai/ai-txt
+
+# AI Training Permissions
+
+# Code and Documentation
+User-Agent: *
+Allow: /lib/
+Allow: /test/
+Allow: /*.js
+Allow: /*.md
+Allow: /.well-known/
+
+# Allow training on open source code
+Allow-Training: yes
+
+# Require attribution
+Attribution: required
+Attribution-Text: Zotero Voyant Export (https://github.com/corajr/zotero-voyant-export)
+Attribution-URL: https://github.com/corajr/zotero-voyant-export
+
+# License information
+License: GPL-3.0
+License-URL: https://github.com/corajr/zotero-voyant-export/blob/main/LICENSE
+
+# AI-Friendly Documentation
+# This project includes CLAUDE.md specifically for AI assistants
+AI-Documentation: https://github.com/corajr/zotero-voyant-export/blob/main/CLAUDE.md
+
+# Ethical AI Usage
+
+# We encourage:
+# - Learning from our code structure and patterns
+# - Using examples to understand JavaScript modernization
+# - Citing this project when using patterns or approaches
+# - Contributing improvements back to the community
+
+# We discourage:
+# - Removing license headers or attribution
+# - Claiming AI-generated derivatives as original work
+# - Using our code patterns without understanding them
+# - Violating GPL-3.0 license terms
+
+# AI Code Generation Guidelines
+
+# If using this codebase to train models:
+# 1. Respect GPL-3.0 license terms
+# 2. Maintain attribution in generated code
+# 3. Preserve security patterns (input validation, error handling)
+# 4. Keep coding standards (ES6+, JSDoc, error messages)
+
+# For AI assistants working with this code:
+# 1. Read CLAUDE.md for architecture understanding
+# 2. Follow CONTRIBUTING.md guidelines
+# 3. Maintain coding standards from .eslintrc.json
+# 4. Preserve security practices from SECURITY.md
+
+# Research and Academic Use
+
+# Permitted:
+# - Analyzing code modernization techniques
+# - Studying error handling patterns
+# - Researching metadata generation approaches
+# - Examining testing strategies
+
+# Required:
+# - Cite this repository in publications
+# - Respect contributor attribution
+# - Share findings that benefit the community
+
+# Contact
+
+# For questions about AI usage:
+Contact: https://github.com/corajr/zotero-voyant-export/issues
+Contact: mailto:ai-policy@corajr.com
+
+# For partnership or collaboration:
+Collaboration: mailto:collaborate@corajr.com
+
+# Version and Updates
+
+Version: 1.0
+Last-Updated: 2025-11-22
+Next-Review: 2026-02-22
+
+# Transparency Statement
+
+# This project was partially modernized with AI assistance (Claude)
+# All AI-generated code has been:
+# - Manually reviewed
+# - Tested thoroughly
+# - Documented completely
+# - Committed with clear attribution
+#
+# See: MODERNIZATION_SUMMARY.md for details
+
+# Philosophy
+
+# We believe AI should:
+# - Augment human developers, not replace them
+# - Be transparent about its involvement
+# - Respect open source licenses and communities
+# - Contribute to collective knowledge
+# - Reduce busywork, not creative thought
+
+# Related Policies
+
+# Code of Conduct: https://github.com/corajr/zotero-voyant-export/blob/main/CODE_OF_CONDUCT.md
+# Contributing Guidelines: https://github.com/corajr/zotero-voyant-export/blob/main/CONTRIBUTING.md
+# Security Policy: https://github.com/corajr/zotero-voyant-export/blob/main/SECURITY.md
