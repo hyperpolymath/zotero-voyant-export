@@ -1,0 +1,296 @@
+# GitLab CI/CD Pipeline for Zotero Voyant Export
+# RSR-compliant continuous integration
+
+variables:
+  FIREFOX_NIGHTLY_URL: "https://download.mozilla.org/?product=firefox-nightly-latest&os=linux64&lang=en-US"
+
+# Define stages
+stages:
+  - lint
+  - test
+  - build
+  - compliance
+  - security
+  - deploy
+
+# Global before_script
+before_script:
+  - echo "Starting CI/CD pipeline..."
+  - node --version
+  - npm --version
+
+# Caching for faster builds
+cache:
+  paths:
+    - node_modules/
+    - .npm/
+
+# Lint stage
+lint:eslint:
+  stage: lint
+  image: node:18
+  script:
+    - npm install -g jpm eslint
+    - npm install --save-dev eslint
+    - eslint index.js lib/*.js test/*.js
+  only:
+    - branches
+    - merge_requests
+  tags:
+    - docker
+
+lint:formatting:
+  stage: lint
+  image: node:18
+  script:
+    - echo "Checking code formatting..."
+    - |
+      if git grep -I --line-number --perl-regexp '\s+$' -- ':!*.md'; then
+        echo "Error: Found trailing whitespace"
+        exit 1
+      fi
+    - echo "✓ Formatting check passed"
+  allow_failure: true
+  tags:
+    - docker
+
+# Test stage
+test:unit:
+  stage: test
+  image: node:18
+  before_script:
+    - apt-get update
+    - apt-get install -y wget bzip2
+    - npm install -g jpm
+    - wget -O firefox-nightly.tar.bz2 "$FIREFOX_NIGHTLY_URL"
+    - tar -xjf firefox-nightly.tar.bz2
+  script:
+    - jpm test -b "$(pwd)/firefox/firefox"
+  artifacts:
+    reports:
+      junit: test-results.xml
+    when: always
+  coverage: '/Lines\s*:\s*(\d+\.\d+)%/'
+  only:
+    - branches
+    - merge_requests
+  tags:
+    - docker
+
+# Build stage
+build:xpi:
+  stage: build
+  image: node:18
+  before_script:
+    - npm install -g jpm
+  script:
+    - echo "Building XPI..."
+    - make xpi
+    - ls -lh zotero-voyant-export.xpi
+    - |
+      if [ ! -f zotero-voyant-export.xpi ]; then
+        echo "Error: XPI file not created"
+        exit 1
+      fi
+    - echo "✓ Build successful"
+  artifacts:
+    name: "zotero-voyant-export-$CI_COMMIT_REF_NAME"
+    paths:
+      - zotero-voyant-export.xpi
+    expire_in: 30 days
+  only:
+    - branches
+    - tags
+  tags:
+    - docker
+
+# RSR Compliance stage
+compliance:rsr-check:
+  stage: compliance
+  image: node:18
+  before_script:
+    - wget -qO- https://just.systems/install.sh | bash -s -- --to /usr/local/bin
+  script:
+    - echo "Running RSR compliance check..."
+    - just rsr-check
+    - |
+      echo "Verifying documentation files..."
+      MISSING=""
+      for file in README.md LICENSE SECURITY.md CONTRIBUTING.md \
+                  CODE_OF_CONDUCT.md MAINTAINERS.md CHANGELOG.md \
+                  CLAUDE.md DEVELOPMENT.md BAGIT.md TPCF.md RSR_COMPLIANCE.md; do
+        if [ ! -f "$file" ]; then
+          MISSING="$MISSING $file"
+        fi
+      done
+
+      if [ -n "$MISSING" ]; then
+        echo "Error: Missing documentation files:$MISSING"
+        exit 1
+      fi
+      echo "✓ All documentation present"
+  allow_failure: false
+  only:
+    - branches
+    - merge_requests
+  tags:
+    - docker
+
+compliance:well-known:
+  stage: compliance
+  image: node:18
+  script:
+    - echo "Checking .well-known directory..."
+    - |
+      for file in security.txt ai.txt humans.txt; do
+        if [ ! -f ".well-known/$file" ]; then
+          echo "Error: Missing .well-known/$file"
+          exit 1
+        fi
+      done
+    - echo "✓ .well-known directory compliant"
+  tags:
+    - docker
+
+# Security stage
+security:secret-scan:
+  stage: security
+  image: node:18
+  script:
+    - echo "Scanning for exposed secrets..."
+    - |
+      if git grep -i "password\s*=\|secret\s*=\|api_key\s*=\|token\s*=" -- '*.js' '*.json'; then
+        echo "Error: Potential secrets found in code"
+        exit 1
+      fi
+    - echo "✓ No secrets found"
+  tags:
+    - docker
+
+security:policy-check:
+  stage: security
+  image: node:18
+  script:
+    - |
+      if [ ! -f SECURITY.md ]; then
+        echo "Error: SECURITY.md is missing"
+        exit 1
+      fi
+    - |
+      if [ ! -f .well-known/security.txt ]; then
+        echo "Error: security.txt is missing"
+        exit 1
+      fi
+    - echo "✓ Security policies present"
+  tags:
+    - docker
+
+security:dependency-check:
+  stage: security
+  image: node:18
+  script:
+    - echo "Checking for vulnerable dependencies..."
+    - npm audit --production || true
+  allow_failure: true
+  tags:
+    - docker
+
+# Documentation jobs
+docs:check:
+  stage: compliance
+  image: node:18
+  script:
+    - echo "Checking documentation..."
+    - |
+      # Check for JSDoc coverage
+      echo "Checking JSDoc coverage..."
+      TOTAL_FUNCS=$(grep -r "^const.*= (.*) =>" lib/*.js | wc -l)
+      DOCUMENTED=$(grep -B1 "^const.*= (.*) =>" lib/*.js | grep "/\*\*" | wc -l)
+      COVERAGE=$((DOCUMENTED * 100 / TOTAL_FUNCS))
+      echo "JSDoc coverage: $COVERAGE%"
+
+      if [ $COVERAGE -lt 80 ]; then
+        echo "Warning: JSDoc coverage below 80%"
+      fi
+  allow_failure: true
+  tags:
+    - docker
+
+# Statistics job (only on main branch)
+stats:project:
+  stage: deploy
+  image: node:18
+  before_script:
+    - wget -qO- https://just.systems/install.sh | bash -s -- --to /usr/local/bin
+  script:
+    - echo "Generating project statistics..."
+    - just stats
+  only:
+    - main
+  tags:
+    - docker
+
+# Release job (only on tags)
+release:publish:
+  stage: deploy
+  image: node:18
+  before_script:
+    - npm install -g jpm
+  script:
+    - echo "Creating release for $CI_COMMIT_TAG"
+    - make xpi
+    - echo "Release artifact created"
+  artifacts:
+    name: "zotero-voyant-export-$CI_COMMIT_TAG"
+    paths:
+      - zotero-voyant-export.xpi
+  only:
+    - tags
+  tags:
+    - docker
+
+# Pages deployment (documentation)
+pages:
+  stage: deploy
+  image: node:18
+  script:
+    - mkdir -p public
+    - cp README.md public/index.md
+    - cp *.md public/ || true
+    - cp -r .well-known public/ || true
+  artifacts:
+    paths:
+      - public
+  only:
+    - main
+  tags:
+    - docker
+
+# Workflow rules
+workflow:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS'
+      when: never
+    - if: '$CI_COMMIT_BRANCH'
+    - if: '$CI_COMMIT_TAG'
+
+# Success/Failure notifications
+notify:success:
+  stage: .post
+  image: alpine:latest
+  script:
+    - echo "✅ CI/CD Pipeline succeeded for $CI_COMMIT_REF_NAME"
+  when: on_success
+  tags:
+    - docker
+
+notify:failure:
+  stage: .post
+  image: alpine:latest
+  script:
+    - echo "❌ CI/CD Pipeline failed for $CI_COMMIT_REF_NAME"
+    - echo "Check the logs above for details"
+  when: on_failure
+  tags:
+    - docker
