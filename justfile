@@ -1,12 +1,70 @@
 # justfile - Build automation for Zotero Voyant Export
 # https://just.systems/
+#
+# Modern stack: Deno + ReScript + WASM
+# Legacy stack: npm + jpm (deprecated, kept for backwards compatibility)
 
 # Default recipe (list all recipes)
 default:
     @just --list
 
-# Build unsigned XPI
+# ═══════════════════════════════════════════════════════════════
+# MODERN STACK (Deno + ReScript + WASM)
+# ═══════════════════════════════════════════════════════════════
+
+# Build with Deno/ReScript/WASM stack
+build-modern: clean-modern
+    @echo "🚀 Building with Deno/ReScript/WASM..."
+    deno task build
+    @echo "✅ Modern build complete"
+
+# Build with WASM acceleration
+build-wasm: clean-modern
+    @echo "🦀 Building with WASM..."
+    deno task build --wasm
+    @echo "✅ WASM build complete"
+
+# Compile ReScript only
+build-rescript:
+    @echo "📝 Compiling ReScript..."
+    deno task build:rescript
+    @echo "✅ ReScript compiled"
+
+# Test with Deno
+test-modern:
+    @echo "🧪 Running Deno tests..."
+    deno task test
+    @echo "✅ Tests passed"
+
+# Lint with Deno
+lint-modern:
+    @echo "🔍 Linting with Deno..."
+    deno task lint
+    @echo "✅ Lint complete"
+
+# Format with Deno
+fmt:
+    @echo "✨ Formatting code..."
+    deno fmt
+    @echo "✅ Format complete"
+
+# Clean modern build artifacts
+clean-modern:
+    @echo "🧹 Cleaning modern build artifacts..."
+    deno task clean
+    @echo "✅ Clean complete"
+
+# Validate all checks (Deno stack)
+validate-modern: lint-modern test-modern
+    @echo "✅ All modern validation checks passed"
+
+# ═══════════════════════════════════════════════════════════════
+# LEGACY STACK (npm + jpm) - Deprecated
+# ═══════════════════════════════════════════════════════════════
+
+# Build unsigned XPI (legacy)
 build: clean
+    @echo "⚠️  Using legacy build system (npm/jpm)"
     @echo "Building unsigned XPI..."
     make xpi
     @echo "✓ Build complete: zotero-voyant-export.xpi"

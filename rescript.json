@@ -1,0 +1,42 @@
+{
+  "name": "zotero-voyant-export",
+  "version": "1.0.0",
+  "sources": [
+    {
+      "dir": "src",
+      "subdirs": true
+    }
+  ],
+  "package-specs": [
+    {
+      "module": "es6",
+      "in-source": false,
+      "suffix": ".js"
+    }
+  ],
+  "bs-dependencies": [],
+  "bs-dev-dependencies": [],
+  "warnings": {
+    "error": "+101+8",
+    "number": "-44-102"
+  },
+  "bsc-flags": [
+    "-bs-no-version-header",
+    "-bs-g",
+    "-open RescriptCore"
+  ],
+  "suffix": ".res",
+  "namespace": true,
+  "gentypeconfig": {
+    "language": "typescript",
+    "shims": {},
+    "debug": {
+      "all": false,
+      "basic": false
+    }
+  },
+  "reason": {
+    "react-jsx": 3
+  },
+  "refmt": 3
+}

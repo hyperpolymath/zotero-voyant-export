@@ -1,0 +1,60 @@
+{
+  "name": "@zotero/voyant-export",
+  "version": "1.0.0",
+  "exports": "./mod.ts",
+  "tasks": {
+    "build": "deno run --allow-read --allow-write --allow-run --allow-env build.ts",
+    "build:rescript": "rescript build -with-deps",
+    "build:wasm": "deno run --allow-read --allow-write --allow-run tasks.ts wasm",
+    "build:xpi": "deno run --allow-read --allow-write --allow-run tasks.ts xpi",
+    "dev": "deno run --allow-read --allow-write --allow-run --watch build.ts",
+    "test": "deno test --allow-all test/",
+    "test:unit": "rescript build && deno test --allow-read test/",
+    "lint": "deno lint && rescript build",
+    "fmt": "deno fmt",
+    "check": "deno check build.ts tasks.ts",
+    "clean": "deno run --allow-read --allow-write tasks.ts clean",
+    "rsr-check": "deno run --allow-read --allow-run tasks.ts rsr-check",
+    "validate": "deno task lint && deno task test && deno task rsr-check"
+  },
+  "fmt": {
+    "useTabs": false,
+    "lineWidth": 100,
+    "indentWidth": 2,
+    "semiColons": true,
+    "singleQuote": false,
+    "proseWrap": "preserve",
+    "include": ["build.ts", "tasks.ts", "test/*.ts"],
+    "exclude": ["lib/", "wasm/pkg/", "node_modules/"]
+  },
+  "lint": {
+    "include": ["build.ts", "tasks.ts", "test/*.ts"],
+    "exclude": ["lib/", "wasm/pkg/", "node_modules/"],
+    "rules": {
+      "tags": ["recommended"],
+      "include": ["ban-untagged-todo"],
+      "exclude": ["no-unused-vars"]
+    }
+  },
+  "test": {
+    "include": ["test/**/*_test.ts"],
+    "exclude": ["wasm/", "lib/"]
+  },
+  "compilerOptions": {
+    "allowJs": false,
+    "strict": true,
+    "lib": ["deno.window", "dom", "dom.iterable"],
+    "jsx": "react",
+    "jsxFactory": "h",
+    "jsxFragmentFactory": "Fragment"
+  },
+  "imports": {
+    "@std/assert": "jsr:@std/assert@^1",
+    "@std/fs": "jsr:@std/fs@^1",
+    "@std/path": "jsr:@std/path@^1",
+    "@std/async": "jsr:@std/async@^1",
+    "@std/streams": "jsr:@std/streams@^1",
+    "@std/encoding": "jsr:@std/encoding@^1"
+  },
+  "lock": false
+}

@@ -1,3 +1,42 @@
+# Build outputs
 *.xpi
 package.json
 update.rdf
+build/
+
+# ReScript
+lib/
+.rescript/
+.bsb.lock
+.merlin
+
+# WASM
+wasm/pkg/
+wasm/target/
+wasm/Cargo.lock
+
+# Deno
+.deno/
+
+# Legacy Node.js (should not exist anymore, but just in case)
+node_modules/
+package-lock.json
+npm-debug.log*
+yarn.lock
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Test coverage
+coverage/
+*.lcov
+
+# Temporary files
+*.tmp
+*.bak
+.tmp/
