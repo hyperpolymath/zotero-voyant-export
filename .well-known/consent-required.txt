@@ -1,0 +1,96 @@
+# HTTP 430 Consent Required Protocol
+# Zotero Voyant Export
+
+# This file indicates that certain operations require explicit user consent
+# Reference: HTTP 430 status code proposal for consent-required operations
+
+## Data Collection
+
+This software does NOT collect any data automatically.
+
+All exports are:
+- User-initiated (explicit action required)
+- Local-only (no network transmission)
+- Fully controlled by the user
+
+## User Consent Points
+
+The following operations require explicit user action:
+
+1. **Export Collection**
+   - Requires: Right-click menu selection
+   - User confirms: File save dialog
+   - Consent type: Explicit action
+   - Data scope: Selected collection only
+
+2. **File Creation**
+   - Requires: User selects save location via file picker
+   - User confirms: Save button in dialog
+   - Consent type: Explicit save action
+   - Data scope: Exported ZIP file only
+
+## No Consent Required For
+
+- Reading Zotero database (read-only, local access)
+- Plugin installation (user-initiated)
+- Viewing debug output (user-initiated)
+
+## Consent Withdrawal
+
+Users may withdraw consent at any time by:
+- Canceling export operation (close save dialog)
+- Deleting exported files
+- Uninstalling plugin (Tools → Add-ons → Remove)
+
+## Privacy Principles
+
+- **Offline-First**: No network calls, all processing local
+- **User Control**: All actions require explicit user initiation
+- **No Tracking**: No analytics, no telemetry, no phone-home
+- **No Auto-Save**: User must explicitly choose save location
+- **Transparency**: All operations logged in Zotero debug output
+
+## Data Minimization
+
+Exported data includes only:
+- Bibliographic metadata (from Zotero)
+- Attachment files (from Zotero)
+- Generated metadata (MODS, Dublin Core)
+
+No additional data collected, transmitted, or stored.
+
+## Third-Party Services
+
+This plugin does NOT:
+- ❌ Send data to external services
+- ❌ Contact remote servers
+- ❌ Use analytics services
+- ❌ Include tracking code
+- ❌ Phone home
+
+Upload to Voyant Tools is:
+- ✅ Separate user action (not automated by plugin)
+- ✅ User-controlled (user uploads manually)
+- ✅ Subject to Voyant's own policies
+
+## Compliance
+
+- **GDPR**: N/A (no personal data processing beyond local use)
+- **CCPA**: N/A (no data sales or sharing)
+- **Privacy-First**: By design, no privacy concerns
+
+## Contact
+
+Privacy questions: cora@corajr.com
+Security issues: security@corajr.com
+
+## References
+
+- HTTP 430 Consent Required: https://tools.ietf.org/id/draft-tbray-http-legally-restricted-status-05.html
+- Privacy Policy: See README.adoc
+- Security Policy: See SECURITY.md
+
+---
+
+Last Updated: 2025-11-28
+Version: 1.0.0

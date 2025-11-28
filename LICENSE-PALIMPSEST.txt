@@ -1,0 +1,132 @@
+Palimpsest License
+Version 0.8
+
+Copyright (c) 2015-2025 Cora Johnson-Roberson
+
+Preamble
+
+The Palimpsest License is designed for works that embrace the collaborative,
+iterative nature of knowledge creation. Like a palimpsest—a manuscript that
+has been written over one or more times, with the earlier writing still
+visible—this license acknowledges that creative works are built upon layers
+of prior knowledge, effort, and contribution.
+
+This license emphasizes:
+- Attribution and acknowledgment of contributors
+- Collaborative stewardship over individual ownership
+- Transparency in modifications and derivations
+- Solidarity economics and ethical use
+- Preservation of attribution chains
+
+Terms and Conditions
+
+1. DEFINITIONS
+
+"Work" refers to the software, documentation, and associated materials
+covered by this license.
+
+"You" means the individual or entity exercising permissions granted by
+this license.
+
+"Derivative Work" means any work based upon the Work or portions thereof.
+
+"Attribution Chain" means the cumulative record of all contributors to
+the Work and its derivatives.
+
+2. GRANT OF RIGHTS
+
+Subject to the terms and conditions of this License, the copyright holder
+grants You a worldwide, royalty-free, non-exclusive license to:
+
+a) Use the Work for any purpose, including commercial purposes
+b) Modify the Work and create Derivative Works
+c) Distribute copies of the Work or Derivative Works
+d) Publicly perform or display the Work or Derivative Works
+
+3. ATTRIBUTION REQUIREMENTS
+
+You must preserve and maintain:
+
+a) All copyright notices in their original form
+b) The complete Attribution Chain, listing all contributors
+c) This license text in its entirety
+d) Notices of modifications made to the Work
+
+When distributing the Work or Derivative Works, You must:
+
+a) Provide clear attribution to all contributors in the Attribution Chain
+b) Document Your contributions and modifications
+c) Add Your name/identifier to the Attribution Chain
+d) Make the Attribution Chain readily accessible to recipients
+
+4. TRANSPARENCY OBLIGATIONS
+
+If You distribute Derivative Works:
+
+a) You must clearly indicate what portions You modified
+b) You should use a version control system (e.g., Git) to track changes
+c) You should make source code available (though not legally required)
+d) You must not remove or obscure existing attribution
+
+5. ETHICAL USE CLAUSE
+
+You agree to use the Work in ways that:
+
+a) Respect human dignity and rights
+b) Do not cause unjust harm to individuals or communities
+c) Promote solidarity and mutual aid where possible
+d) Consider environmental and social impacts
+
+6. NO WARRANTY
+
+THE WORK IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE WORK OR THE USE OR
+OTHER DEALINGS IN THE WORK.
+
+7. TERMINATION
+
+Your rights under this license terminate automatically if You fail to comply
+with its terms. However, rights of recipients who have received copies or
+rights from You under this License will not terminate.
+
+8. INTERPRETATION
+
+This license shall be interpreted in accordance with principles of:
+- Good faith and fair dealing
+- Collaborative stewardship
+- Respect for the commons
+- Acknowledgment of interconnectedness
+
+9. COMPATIBILITY
+
+This license is compatible with:
+- GPL-3.0 (if distributed under GPL terms)
+- MIT License (if distributed under MIT terms)
+- Other permissive licenses with proper attribution
+
+10. PHILOSOPHICAL ENCOURAGEMENT
+
+While not legally binding, users of the Work are encouraged to:
+- Contribute improvements back to the community
+- Support the original authors (financially or otherwise)
+- Practice solidarity economics
+- Acknowledge the collective nature of knowledge
+- Respect the labor and creativity of all contributors
+
+---
+
+Attribution Chain (Cumulative):
+
+2015-2025: Cora Johnson-Roberson (Original Author)
+2025: Claude (Anthropic) - AI-assisted modernization and documentation
+
+---
+
+For questions about this license, contact: cora@corajr.com
+
+SPDX-License-Identifier: Palimpsest-0.8

@@ -1,0 +1,280 @@
+= Governance Framework
+:author: Zotero Voyant Export Project
+:revdate: 2025-11-28
+:toc: left
+:toclevels: 3
+:sectnums:
+:icons: font
+
+== Introduction
+
+This document defines the governance structure for the Zotero Voyant Export project, based on the **Tri-Perimeter Contribution Framework (TPCF)**.
+
+=== Core Principles
+
+* *Transparency*: All decisions are documented and accessible
+* *Meritocracy*: Contributions earn trust and responsibility
+* *Collaboration*: Community input shapes project direction
+* *Sustainability*: Long-term project health over short-term gains
+* *Inclusivity*: Welcoming environment for all contributors
+
+== Governance Model: TPCF
+
+The project uses a three-tier contribution model:
+
+=== Perimeter 3: Community Sandbox (Open)
+
+*Who*: Anyone with a GitHub account
+
+*Access Rights*:
+
+* ✓ Fork the repository
+* ✓ Submit pull requests
+* ✓ Comment on issues and PRs
+* ✓ Participate in discussions
+
+*Process*:
+
+. Fork → Develop → Submit PR
+. Code review by P2 or P1
+. Approval → Merge by maintainer
+
+*Requirements*: None - open to all
+
+=== Perimeter 2: Trusted Contributors
+
+*Who*: Community members who have demonstrated sustained, quality contributions
+
+*Access Rights*:
+
+* ✓ All P3 rights
+* ✓ Direct commit to feature branches
+* ✓ Review and approve PRs
+* ✓ Triage issues
+* ✓ Participate in RFC discussions
+
+*Promotion Criteria*:
+
+* 5+ quality PRs merged
+* 3+ months of sustained contribution
+* Demonstrated understanding of codebase
+* Adherence to code of conduct
+* Nominated by P1 maintainer, consensus approval
+
+*Process*:
+
+. Nomination by P1 maintainer
+. Consensus vote by existing P1 members
+. Public announcement in project channels
+
+=== Perimeter 1: Core Team
+
+*Who*: Long-term maintainers with full project responsibility
+
+*Access Rights*:
+
+* ✓ All P2 rights
+* ✓ Full repository access
+* ✓ Create releases
+* ✓ Manage CI/CD
+* ✓ Grant/revoke P2 access
+* ✓ Make governance decisions
+
+*Promotion Criteria*:
+
+* 12+ months as P2 contributor
+* Significant technical contributions
+* Demonstrated leadership and mentoring
+* Long-term commitment to project
+* Unanimous approval by existing P1 members
+
+*Process*:
+
+. Nomination by existing P1 member
+. Unanimous vote by all P1 members
+. Public announcement
+. Onboarding to maintainer responsibilities
+
+== Current Maintainers
+
+[cols="2,2,2,2,1", options="header"]
+|===
+| Name | GitHub | Role | Areas | Since
+
+| Cora Johnson-Roberson
+| https://github.com/corajr[@corajr]
+| Creator & Lead Maintainer
+| All
+| 2015
+
+|===
+
+*Contact*: cora@corajr.com
+
+== Decision-Making Process
+
+=== Routine Decisions
+
+*Examples*: Bug fixes, minor enhancements, documentation updates
+
+*Process*:
+
+. Create issue or PR
+. P2/P1 review
+. Merge if approved
+
+*Timeline*: Within 7 days for active PRs
+
+=== Significant Decisions
+
+*Examples*: New features, architectural changes, dependency additions
+
+*Process*:
+
+. Create RFC (Request for Comments) issue
+. Discussion period (minimum 14 days)
+. P1 consensus vote
+. Implementation
+
+*Timeline*: 14-30 days depending on complexity
+
+=== Major Decisions
+
+*Examples*: License changes, governance changes, project direction
+
+*Process*:
+
+. Create RFC with detailed proposal
+. Community discussion (minimum 30 days)
+. P1 unanimous vote required
+. Community feedback incorporated
+. Public announcement
+
+*Timeline*: 30-60 days minimum
+
+=== Voting Procedures
+
+*Consensus*: All P1 members support (may abstain)
+
+*Majority*: >50% of P1 members support
+
+*Unanimous*: All P1 members vote in favor (no abstentions)
+
+*Quorum*: All P1 members must be notified; 75% must participate
+
+== Conflict Resolution
+
+=== Process
+
+. **Direct Communication**: Parties attempt to resolve directly
+. **Mediation**: P1 maintainer mediates if needed
+. **Escalation**: Full P1 team discusses and votes
+. **Final Decision**: Unanimous P1 vote or community consultation
+
+=== Code of Conduct Violations
+
+See link:CODE_OF_CONDUCT.adoc[CODE_OF_CONDUCT.adoc] for enforcement procedures.
+
+== Maintainer Responsibilities
+
+=== Core Responsibilities
+
+* Review and merge pull requests
+* Triage and respond to issues
+* Maintain CI/CD pipelines
+* Create releases
+* Enforce code of conduct
+* Mentor new contributors
+* Maintain documentation
+
+=== Time Commitment
+
+* Minimum 4 hours/month for P1 maintainers
+* Regular participation in discussions
+* Timely review of PRs (within 7 days)
+
+=== Succession Planning
+
+If a P1 maintainer becomes inactive:
+
+. **6 months inactive**: Status review, may move to P2 or emeritus
+. **12 months inactive**: Automatic emeritus status
+. **Emeritus**: Honorary status, no voting rights, may return to P1 with consensus
+
+== Financial Governance
+
+=== Funding Sources
+
+* GitHub Sponsors
+* Open Collective
+* Direct donations
+* Grant funding (if applicable)
+
+See link:FUNDING.yml[FUNDING.yml] for donation links.
+
+=== Fund Allocation
+
+*Transparency Requirements*:
+
+* All funding tracked publicly (Open Collective preferred)
+* Quarterly financial reports
+* Spending decisions by P1 consensus
+
+*Allocation Priorities*:
+
+. Infrastructure costs (CI/CD, hosting)
+. Contributor compensation (bounties, grants)
+. Event sponsorship (conferences, hackathons)
+. Documentation and outreach
+
+== Amendment Process
+
+This governance document may be amended:
+
+. P1 member proposes amendment via RFC
+. Community discussion (minimum 30 days)
+. Unanimous P1 vote required
+. Public announcement of changes
+. Update CHANGELOG.md
+
+== Communication Channels
+
+*Primary*:
+
+* GitHub Issues: Feature requests, bug reports
+* GitHub Discussions: General discussion
+* Pull Requests: Code review and discussion
+
+*Secondary*:
+
+* Email: cora@corajr.com (maintainer contact)
+* Security: security@corajr.com (vulnerabilities only)
+
+== Related Documents
+
+* link:CONTRIBUTING.adoc[CONTRIBUTING.adoc]: Contribution guidelines
+* link:CODE_OF_CONDUCT.adoc[CODE_OF_CONDUCT.adoc]: Community standards
+* link:TPCF.md[TPCF.md]: Detailed TPCF framework
+* link:MAINTAINERS.md[MAINTAINERS.md]: Current maintainer list
+* link:SECURITY.md[SECURITY.md]: Security policies
+
+== Acknowledgments
+
+This governance framework is based on:
+
+* Tri-Perimeter Contribution Framework (TPCF)
+* Apache Software Foundation governance
+* Rust project governance
+* Node.js Technical Steering Committee model
+* Contributor Covenant enforcement guidelines
+
+== License
+
+This governance document is licensed under CC0 1.0 Universal (public domain).
+The project code is triple-licensed (GPL-3.0 / MIT / Palimpsest-0.8).
+
+---
+
+*Last Updated*: 2025-11-28 +
+*Version*: 1.0.0 +
+*Contact*: cora@corajr.com

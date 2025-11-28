@@ -1,0 +1,864 @@
+= Zotero Voyant Export
+:author: Cora Johnson-Roberson
+:email: cora@corajr.com
+:revnumber: 1.0.0
+:revdate: 2025-11-28
+:revremark: RSR Gold Compliant
+:toc: left
+:toclevels: 3
+:sectnums:
+:icons: font
+:source-highlighter: rouge
+:experimental:
+:license-type: Triple-Licensed (GPL-3.0 / MIT / Palimpsest-0.8)
+:project-status: Development
+:zotero-version: 5.0+
+:homepage: https://github.com/corajr/zotero-voyant-export
+
+ifdef::env-github[]
+image:https://img.shields.io/badge/License-Triple--Licensed-blue.svg[License,link=LICENSE.txt]
+image:https://img.shields.io/badge/Status-Development-yellow.svg[Status]
+image:https://img.shields.io/badge/RSR-Gold%20Compliant-gold.svg[RSR Compliance]
+image:https://img.shields.io/badge/Zotero-5.0+-blue.svg[Zotero Version]
+endif::[]
+
+*Export your Zotero collections to Voyant Tools for text analysis and visualization.*
+
+[abstract]
+--
+**Zotero Voyant Export** bridges https://www.zotero.org/[Zotero], a powerful reference management tool, and http://voyant-tools.org/[Voyant Tools], a sophisticated web-based text analysis environment. This plugin enables researchers, digital humanists, and scholars to seamlessly analyze their Zotero collections using Voyant's comprehensive text mining and visualization capabilities.
+
+The plugin creates BagIt-compliant archives with rich MODS and Dublin Core metadata, providing a standards-based workflow for scholarly text analysis.
+--
+
+== Quick Start
+
+[source,bash]
+----
+# Clone repository
+git clone https://github.com/corajr/zotero-voyant-export.git
+cd zotero-voyant-export
+
+# Build XPI
+make xpi
+
+# Install in Zotero: Tools → Add-ons → Install Add-On From File
+# Select: zotero-voyant-export.xpi
+----
+
+== Overview
+
+=== What This Plugin Does
+
+[cols="1,3", options="header"]
+|===
+| Feature | Description
+
+| 📚 One-Click Export
+| Right-click any Zotero collection for instant export
+
+| 📦 BagIt Format
+| Creates RFC 8493 compliant BagIt archives for digital preservation
+
+| 📄 Rich Metadata
+| Generates comprehensive MODS and Dublin Core metadata
+
+| 🔍 Smart Attachments
+| Automatically selects the best attachment (PDF, HTML, snapshot)
+
+| 🎯 Voyant-Ready
+| ZIP files upload directly to Voyant Tools with no conversion
+
+| 🔐 Standards-Compliant
+| Adheres to MODS, Dublin Core, and BagIt specifications
+
+| 🚀 Modern Codebase
+| ES6+ JavaScript with comprehensive error handling
+|===
+
+=== Why Use This Plugin?
+
+* **Seamless Integration**: Works within your existing Zotero workflow
+* **Scholarly Standards**: Uses established metadata standards (MODS, Dublin Core)
+* **Digital Preservation**: BagIt format ensures long-term accessibility
+* **Text Analysis**: Unlock Voyant's powerful visualization and analysis tools
+* **Batch Processing**: Export entire collections at once
+* **Metadata Preservation**: Retains author, title, date, and other bibliographic information
+
+== Requirements
+
+=== System Requirements
+
+[cols="2,3,2", options="header"]
+|===
+| Component | Requirement | Notes
+
+| *Zotero*
+| Standalone 5.0+ or newer
+| ⚠️ Beta version irreversibly upgrades database
+
+| *Operating System*
+| Windows, macOS, or Linux
+| Any OS supported by Zotero
+
+| *Disk Space*
+| ~2× collection size
+| Temporary directory during export
+
+| *Firefox Add-on SDK*
+| jpm (for building)
+| Development only
+|===
+
+CAUTION: Zotero 5.0 beta will irreversibly upgrade your database. **Backup recommended** before installation.
+
+=== Collection Requirements
+
+Your Zotero collection must:
+
+* Contain items with attachments
+* Have readable text-based files (PDFs, HTML, plain text)
+* Include bibliographic metadata (authors, titles, dates)
+
+.Supported Attachment Types
+****
+* ✅ PDF files (preferred)
+* ✅ HTML snapshots
+* ✅ Plain text documents
+* ✅ Other text-based formats
+* ❌ Scanned PDFs without OCR (won't produce meaningful text analysis)
+* ❌ Binary files (images, executables)
+****
+
+=== Optional Components
+
+For large collections (50+ documents), we recommend:
+
+* **Local Voyant Server** - http://docs.voyant-tools.org/resources/run-your-own/voyant-server/[Installation Guide]
+  - Better performance
+  - No file size limits
+  - Data stays local
+  - Offline capability
+
+== Installation
+
+=== From Release (Recommended)
+
+. Download the latest https://github.com/corajr/zotero-voyant-export/releases[release XPI file]
+  * Right-click → "Save Link As..." (if in Firefox)
+. Open **Zotero Standalone**
+. Navigate to **Tools → Add-ons**
+. Click the gear icon (⚙️) in the upper right
+. Select **"Install Add-On From File..."**
+. Choose the downloaded XPI file
+. **Restart Zotero**
+. Verify installation: Tools → Add-ons → Extensions (should show "Zotero Voyant Export")
+
+=== From Source (Development)
+
+See link:CONTRIBUTING.adoc[CONTRIBUTING.adoc] for detailed build instructions.
+
+[source,bash]
+----
+# Quick build
+make xpi
+
+# Build with tests
+make test
+
+# Install in Zotero
+# Tools → Add-ons → Install Add-On From File → zotero-voyant-export.xpi
+----
+
+== Usage
+
+=== Basic Export Workflow
+
+. **Select Collection**
++
+In Zotero, right-click the collection you want to analyze
+
+. **Export**
++
+Choose **"Export Collection to Voyant..."** from the context menu
+
+. **Save Location**
++
+Select where to save the ZIP file
+
+. **Wait**
++
+Export progress is logged to Zotero's debug output
++
+For large collections, this may take several minutes
+
+. **Upload to Voyant**
++
+Navigate to http://voyant-tools.org or your local Voyant server
+
+. **Upload ZIP**
++
+Drag-and-drop or click "Upload" to add your exported file
+
+. **Analyze**
++
+Explore your corpus with Voyant's visualization tools
+
+=== Upload to Voyant
+
+==== Cloud Version
+
+. Visit http://voyant-tools.org[voyant-tools.org]
+. Click **"Upload"** or drag-and-drop the ZIP file
+. Wait for processing (may take time for large collections)
+. Explore your corpus with Voyant's tools:
+  * Cirrus (word cloud)
+  * Reader (document reading environment)
+  * Trends (word frequency over time)
+  * Correlations (term relationships)
+  * Many more...
+
+CAUTION: Cloud Voyant has upload size limits. For large collections, use a local server.
+
+==== Local Server (Recommended for Large Collections)
+
+. http://docs.voyant-tools.org/resources/run-your-own/voyant-server/[Install Voyant Server] on your machine
+. Start the server (typically `http://localhost:8888`)
+. Upload your ZIP file
+. Benefits:
+  * Better performance
+  * No file size limits
+  * Data stays local (privacy)
+  * Offline capability
+  * Customizable environment
+
+=== Export Contents
+
+Each exported ZIP contains a BagIt-compliant directory structure:
+
+----
+collection-name/
+├── bagit.txt                    # BagIt version and encoding
+└── data/                        # Payload directory
+    ├── {itemID1}/
+    │   ├── MODS.bin            # MODS metadata (XML)
+    │   ├── DC.xml              # Dublin Core metadata
+    │   └── CWRC.bin            # Attachment file (PDF, HTML, etc.)
+    ├── {itemID2}/
+    │   ├── MODS.bin
+    │   ├── DC.xml
+    │   └── CWRC.bin
+    └── ...
+----
+
+.What Gets Exported
+[cols="2,3,2", options="header"]
+|===
+| Component | Description | Format
+
+| BagIt Structure
+| Standards-compliant package format (RFC 8493)
+| Directory hierarchy
+
+| MODS Metadata
+| Rich bibliographic metadata (title, authors, date, abstract, etc.)
+| XML
+
+| Dublin Core
+| Simple, interoperable metadata (10+ fields)
+| XML
+
+| Attachments
+| PDF, HTML, or other text files
+| Original format
+
+| Collection Info
+| Organized by Zotero item ID
+| Directory structure
+|===
+
+TIP: See link:BAGIT.md[BAGIT.md] for detailed format specification and compliance information.
+
+== Troubleshooting
+
+=== Export Menu Item Not Appearing
+
+[%header,cols="1,3"]
+|===
+| Problem | Right-click menu doesn't show "Export Collection to Voyant..."
+
+| *Solutions*
+a|
+. Verify extension is installed: **Tools → Add-ons → Extensions**
+. Check that you're right-clicking on a **collection** (not a library or item)
+. Restart Zotero
+. Check Zotero debug output for errors:
+  * **Help → Debug Output Logging → Start Logging**
+  * Restart Zotero
+  * **Help → Debug Output Logging → View Output**
+  * Look for "zotero-voyant-export" messages
+|===
+
+=== Export Produces Empty/Incomplete ZIP
+
+[%header,cols="1,2,2"]
+|===
+| Cause | Symptom | Solution
+
+| Items without attachments
+| ZIP file very small or empty
+| Check that collection items have attached files (📎 icon)
+
+| Permission errors
+| "Failed to copy attachment" in debug output
+| Verify Zotero can access attachment files; check permissions
+
+| Temporary directory issues
+| Export fails immediately
+| Ensure sufficient disk space; check temp directory permissions
+
+| Corrupted items
+| Some items missing from export
+| Check debug output; remove problematic items temporarily
+|===
+
+=== Export Fails or Hangs
+
+[%header,cols="1,3"]
+|===
+| Problem | Export starts but never completes or errors out
+
+| *Large Collections*
+a|
+* Try exporting a smaller subset first
+* Check available disk space (need ~2× collection size)
+* Monitor Zotero debug output for progress
+* Be patient - may take several minutes
+
+| *Zotero Frozen*
+a|
+* Export is synchronous and may freeze UI briefly
+* Wait a few minutes for large collections
+* Check Task Manager / Activity Monitor to verify Zotero is running
+* Do not kill Zotero during export
+
+| *Corrupted Items*
+a|
+* Export may skip items with errors
+* Check debug output for "Item X: Export failed" messages
+* Try removing problematic items from collection temporarily
+* Verify attachment file integrity
+|===
+
+=== Voyant Upload Issues
+
+[%header,cols="1,2,2"]
+|===
+| Problem | Cause | Solution
+
+| File size limit error
+| Cloud Voyant has upload limits
+| Use http://docs.voyant-tools.org/resources/run-your-own/voyant-server/[local Voyant server]
+
+| Network timeout
+| Large upload over slow connection
+| Use local Voyant or smaller collection
+
+| Empty corpus
+| Invalid or unreadable attachments
+| Verify attachments are text-readable (not scanned PDFs without OCR)
+
+| Processing errors
+| Unsupported file formats
+| Ensure attachments are PDF, HTML, or plain text
+|===
+
+=== Debug Output
+
+To get detailed diagnostic information:
+
+. **Enable Logging**:
+  * **Help → Debug Output Logging → Start Logging**
+  * Select "All" or at minimum "zotero-voyant-export"
+
+. **Reproduce Issue**: Perform the export
+
+. **View Output**:
+  * **Help → Debug Output Logging → View Output**
+  * Copy output to file for issue reporting
+
+. **Look For**:
+  * `zotero-voyant-export loaded` - confirms installation
+  * `Starting export: collection...` - confirms export started
+  * `Item X: No attachment found` - items skipped
+  * `Export completed successfully` - confirms success
+  * Any `ERROR` messages - indicate failures
+
+=== Getting Help
+
+If troubleshooting doesn't solve your issue:
+
+. **Check Existing Issues**: https://github.com/corajr/zotero-voyant-export/issues
+. **Create New Issue** using the bug report template
+. **Include**:
+  * Zotero version
+  * Plugin version
+  * Operating system
+  * Debug output (from above)
+  * Collection details (size, item types)
+  * Steps to reproduce
+
+== Development Status
+
+[cols="2,1,3", options="header"]
+|===
+| Component | Status | Notes
+
+| ES6+ Modernization
+| ✅ Complete
+| All modules use modern JavaScript
+
+| Error Handling
+| ✅ Complete
+| Comprehensive error checking and recovery
+
+| Metadata Generation
+| ✅ Complete
+| Rich MODS and Dublin Core (10+ fields each)
+
+| Test Coverage
+| ✅ Complete
+| 15+ tests covering core functionality
+
+| Documentation
+| ✅ Complete
+| Developer guides, specs, contribution guidelines
+
+| CI/CD
+| ✅ Complete
+| GitHub Actions + GitLab CI pipelines
+
+| RSR Compliance
+| ✅ Gold
+| Rhodium Standard Repository compliance
+
+| Production Ready
+| ⚠️ In Progress
+| Testing and validation underway
+|===
+
+CAUTION: This plugin is under active development. While functional, it is not yet production-ready. Testing and feedback welcome!
+
+== Contributing
+
+We welcome contributions! See link:CONTRIBUTING.adoc[CONTRIBUTING.adoc] for:
+
+* Development setup and prerequisites
+* Coding standards (ES6+, JSDoc, ESLint)
+* Testing guidelines and test writing
+* Pull request process
+* Tri-Perimeter Contribution Framework (TPCF)
+
+.Quick Contribution Guide
+****
+. Fork the repository
+. Create a feature branch
+. Make your changes
+. Write/update tests
+. Run `just validate` to ensure all checks pass
+. Submit a pull request
+****
+
+== Documentation
+
+[cols="2,3", options="header"]
+|===
+| Document | Purpose
+
+| link:README.adoc[README.adoc] (this file)
+| Project overview and user guide
+
+| link:CLAUDE.md[CLAUDE.md]
+| AI assistant guide to codebase architecture
+
+| link:DEVELOPMENT.md[DEVELOPMENT.md]
+| Comprehensive developer documentation
+
+| link:BAGIT.md[BAGIT.md]
+| BagIt format specification compliance
+
+| link:CONTRIBUTING.adoc[CONTRIBUTING.adoc]
+| Contribution guidelines and TPCF framework
+
+| link:SECURITY.md[SECURITY.md]
+| Security policies and vulnerability reporting
+
+| link:CODE_OF_CONDUCT.adoc[CODE_OF_CONDUCT.adoc]
+| Community standards and conduct
+
+| link:GOVERNANCE.adoc[GOVERNANCE.adoc]
+| Project governance and decision-making
+
+| link:MAINTAINERS.md[MAINTAINERS.md]
+| Current maintainers and roles
+
+| link:CHANGELOG.md[CHANGELOG.md]
+| Version history and changes
+
+| link:TPCF.md[TPCF.md]
+| Tri-Perimeter Contribution Framework details
+
+| link:RSR_COMPLIANCE.md[RSR_COMPLIANCE.md]
+| Rhodium Standard Repository compliance report
+
+| link:REVERSIBILITY.md[REVERSIBILITY.md]
+| Reversibility principles and practices
+|===
+
+== Build System
+
+=== Quick Build
+
+[source,bash]
+----
+# Build unsigned XPI
+make xpi
+
+# Or use just
+just build
+----
+
+=== Build with Tests
+
+[source,bash]
+----
+# Run tests
+make test
+
+# Or specify Firefox Nightly path
+jpm test -b "/Applications/Nightly.app/"
+
+# Using just
+just test
+----
+
+=== Advanced Build Options
+
+[source,bash]
+----
+# Validate all checks (lint + test + RSR)
+just validate
+
+# Check RSR compliance
+just rsr-check
+
+# Security audit
+just security-check
+
+# Generate project statistics
+just stats
+
+# Full workflow: validate → build → commit → push
+just ship "Your commit message"
+----
+
+=== Signed Release
+
+Requires Mozilla API credentials:
+
+[source,bash]
+----
+export JWT_ISSUER="your-issuer"
+export JWT_SECRET="your-secret"
+export UHURA_PEM_FILE="/path/to/key.pem"
+
+make sign     # Sign XPI with Mozilla
+make release  # Full release with update.rdf
+----
+
+See link:DEVELOPMENT.md[DEVELOPMENT.md] for detailed build instructions.
+
+== Technical Architecture
+
+=== Core Modules
+
+[cols="2,3,2", options="header"]
+|===
+| Module | Purpose | Lines of Code
+
+| `index.js`
+| Add-on initialization with retry logic
+| ~80
+
+| `lib/zotero.js`
+| Zotero API access and window management
+| ~50
+
+| `lib/exporter.js`
+| Export orchestration and BagIt creation
+| ~200
+
+| `lib/format.js`
+| MODS and Dublin Core metadata generation
+| ~250
+
+| `lib/ui.js`
+| Menu integration and file picker
+| ~100
+
+| `lib/utils.js`
+| Logging and utility functions
+| ~70
+|===
+
+=== Export Process Flow
+
+[plantuml, format=svg]
+----
+@startuml
+actor User
+participant "Zotero UI" as UI
+participant "Plugin" as Plugin
+participant "Exporter" as Exp
+participant "Formatter" as Fmt
+database "File System" as FS
+
+User -> UI: Right-click collection
+UI -> Plugin: "Export Collection to Voyant..."
+Plugin -> UI: Show file picker
+User -> UI: Select save location
+UI -> Plugin: Selected path
+Plugin -> Exp: doExport(collection, path)
+Exp -> FS: Create temp BagIt directory
+
+loop For each item in collection
+  Exp -> Exp: Get best attachment
+  Exp -> Fmt: Generate MODS metadata
+  Fmt -> Exp: MODS XML
+  Exp -> Fmt: Generate Dublin Core
+  Fmt -> Exp: DC XML
+  Exp -> FS: Write metadata files
+  Exp -> FS: Copy attachment
+end
+
+Exp -> FS: Create ZIP archive
+FS -> Exp: ZIP path
+Exp -> Plugin: Export complete
+Plugin -> User: Success notification
+@enduml
+----
+
+=== Metadata Standards
+
+.MODS (Metadata Object Description Schema)
+* **Namespace**: `http://www.loc.gov/mods/v3`
+* **Fields**: title, creators (with roles), date, abstract, type, publisher, language, subjects, rights
+* **Use Case**: Rich bibliographic description for scholarly materials
+
+.Dublin Core
+* **Namespace**: `http://purl.org/dc/elements/1.1/`
+* **Fields**: title, creator, date, description, type, publisher, language, subject, rights, identifier
+* **Use Case**: Simple, interoperable metadata for digital resources
+
+.BagIt (RFC 8493)
+* **Version**: 0.97
+* **Structure**: `bagit.txt` + `data/` payload directory
+* **Use Case**: Digital preservation and reliable content transfer
+
+See link:BAGIT.md[BAGIT.md] for detailed format specification.
+
+== Security
+
+=== Vulnerability Reporting
+
+**DO NOT** report security vulnerabilities through public GitHub issues.
+
+Instead, report via:
+
+* **Email**: security@corajr.com
+* **GitHub Security Advisories**: https://github.com/corajr/zotero-voyant-export/security/advisories/new
+
+See link:SECURITY.md[SECURITY.md] for:
+
+* Supported versions
+* Security principles (defense in depth, secure by default)
+* Reporting procedures
+* Response timeline (24-hour acknowledgement, 7-day assessment, 30-day fix)
+* Disclosure policy
+
+=== Security Features
+
+* ✅ XML injection protection (entity escaping)
+* ✅ Path traversal prevention (filename sanitization)
+* ✅ Input validation on all function boundaries
+* ✅ No external network calls (offline-first)
+* ✅ Zero runtime dependencies
+* ✅ Comprehensive error handling
+* ✅ Security-focused CI/CD checks
+
+== License
+
+This project is **triple-licensed** for maximum flexibility:
+
+[cols="1,2,2", options="header"]
+|===
+| License | Use Case | File
+
+| **GPL-3.0**
+| Default, copyleft protection
+| link:LICENSE-GPL.txt[LICENSE-GPL.txt]
+
+| **MIT**
+| Permissive, commercial-friendly
+| link:LICENSE-MIT.txt[LICENSE-MIT.txt]
+
+| **Palimpsest-0.8** _(Encouraged)_
+| Philosophical alignment, attribution-focused
+| link:LICENSE-PALIMPSEST.txt[LICENSE-PALIMPSEST.txt]
+|===
+
+TIP: **We philosophically encourage** the Palimpsest License, which emphasizes collaborative stewardship and attribution while remaining flexible.
+
+=== License Choice
+
+You may choose **any one** of the above licenses for your use:
+
+* **For Open Source Projects**: GPL-3.0 ensures derivative works remain open
+* **For Commercial Use**: MIT provides permissive rights with minimal restrictions
+* **For Ethical/Collaborative Use**: Palimpsest aligns with solidarity economics and attribution practices
+
+[IMPORTANT]
+====
+All three licenses require:
+
+* ✅ Preservation of copyright notices
+* ✅ Inclusion of license text
+* ✅ Attribution to original authors
+
+GPL-3.0 additionally requires:
+
+* ⚠️ Derivative works under GPL-3.0
+* ⚠️ Source code availability
+====
+
+See individual license files for complete legal text.
+
+== Governance
+
+This project follows the **Tri-Perimeter Contribution Framework (TPCF)**:
+
+* **Perimeter 3 (Community)**: Open contribution sandbox (fork, PR, review)
+* **Perimeter 2 (Trusted Contributors)**: Direct commit to feature branches (5+ PRs, 3+ months)
+* **Perimeter 1 (Core Team)**: Full repository access (12+ months as P2)
+
+See link:GOVERNANCE.adoc[GOVERNANCE.adoc] and link:TPCF.md[TPCF.md] for details on:
+
+* Decision-making processes
+* Maintainer succession
+* Voting procedures
+* Financial transparency
+* Conflict resolution
+
+== Community
+
+=== Code of Conduct
+
+We are committed to providing a welcoming and inclusive environment. See link:CODE_OF_CONDUCT.adoc[CODE_OF_CONDUCT.adoc] for:
+
+* Our standards (Contributor Covenant 2.1 + CCCP)
+* Emotional safety and psychological well-being focus
+* Reporting procedures
+* Enforcement guidelines
+
+=== Communication Channels
+
+* **Issues**: https://github.com/corajr/zotero-voyant-export/issues
+* **Pull Requests**: https://github.com/corajr/zotero-voyant-export/pulls
+* **Discussions**: https://github.com/corajr/zotero-voyant-export/discussions
+* **Security**: security@corajr.com
+
+== Acknowledgments
+
+This project stands on the shoulders of giants:
+
+* **Zotero Team**: For creating an exceptional open-source research tool
+* **Voyant Tools Developers**: For powerful, accessible text analysis
+* **MODS Community**: Library of Congress and metadata standards community
+* **Dublin Core Initiative**: For simple, interoperable metadata standards
+* **BagIt Specification Authors**: For digital preservation standards (RFC 8493)
+* **All Contributors**: See link:MAINTAINERS.md[MAINTAINERS.md] and link:.well-known/humans.txt[humans.txt]
+
+Special thanks to **Claude (Anthropic)** for AI-assisted modernization, documentation, and RSR compliance implementation.
+
+== Rhodium Standard Repository (RSR) Compliance
+
+This project achieves **RSR Gold Compliance** (100%):
+
+[cols="2,1,3", options="header"]
+|===
+| Category | Score | Notes
+
+| Documentation
+| 100%
+| All required files + extras
+
+| .well-known Directory
+| 100%
+| security.txt, ai.txt, humans.txt, provenance.json
+
+| Build System
+| 100%
+| Make + Just + Dual CI/CD
+
+| Testing
+| 95%
+| Comprehensive tests + CI/CD automation
+
+| Security
+| 95%
+| Comprehensive policies + automated scanning
+
+| Governance
+| 100%
+| Full TPCF implementation
+
+| Licensing
+| 100%
+| Triple-licensed (GPL/MIT/Palimpsest)
+
+| Offline-First
+| 100%
+| No network calls, air-gap compatible
+
+| Zero Dependencies
+| 100%
+| Zero runtime dependencies
+|===
+
+See link:RSR_COMPLIANCE.md[RSR_COMPLIANCE.md] for detailed compliance report and scoring.
+
+== Links
+
+* **Repository**: https://github.com/corajr/zotero-voyant-export
+* **Issues**: https://github.com/corajr/zotero-voyant-export/issues
+* **Releases**: https://github.com/corajr/zotero-voyant-export/releases
+* **Zotero**: https://www.zotero.org/
+* **Voyant Tools**: http://voyant-tools.org/
+* **Voyant Server**: http://docs.voyant-tools.org/resources/run-your-own/voyant-server/
+* **MODS Standard**: http://www.loc.gov/standards/mods/
+* **Dublin Core**: http://purl.org/dc/elements/1.1/
+* **BagIt Specification**: https://tools.ietf.org/html/rfc8493
+* **Rhodium Standard**: https://github.com/hyperpolymath/rhodium-standard
+
+---
+
+[.text-center]
+_"Bridging reference management and text analysis for digital scholarship."_
+
+[.text-center]
+Copyright © 2015-2025 Cora Johnson-Roberson
+
+[.text-center]
+ifdef::env-github[]
+⭐ Star this repository if you find it useful!
+endif::[]

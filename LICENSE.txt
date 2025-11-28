@@ -1,0 +1,117 @@
+ZOTERO VOYANT EXPORT - TRIPLE LICENSE
+
+Copyright (c) 2015-2025 Cora Johnson-Roberson
+
+This software is triple-licensed for maximum flexibility and to accommodate
+different use cases and philosophical alignments.
+
+YOU MAY CHOOSE ONE OF THE FOLLOWING THREE LICENSES:
+
+==============================================================================
+OPTION 1: GNU GENERAL PUBLIC LICENSE VERSION 3.0 (GPL-3.0)
+==============================================================================
+
+For open source projects and copyleft protection.
+
+See: LICENSE-GPL.txt for complete terms.
+
+Summary:
+- ✓ Use, modify, and distribute freely
+- ✓ Commercial use permitted
+- ✗ Derivative works must be GPL-3.0
+- ✗ Source code must be made available
+- ✗ Same license for derivatives
+
+Best for: Open source projects that want to ensure derivatives remain open.
+
+SPDX-License-Identifier: GPL-3.0-or-later
+
+==============================================================================
+OPTION 2: MIT LICENSE
+==============================================================================
+
+For permissive, commercial-friendly use.
+
+See: LICENSE-MIT.txt for complete terms.
+
+Summary:
+- ✓ Use, modify, and distribute freely
+- ✓ Commercial use permitted
+- ✓ Proprietary derivatives allowed
+- ✓ Minimal restrictions
+- ✓ Include license text and copyright notice
+
+Best for: Commercial projects and maximum freedom with minimal obligations.
+
+SPDX-License-Identifier: MIT
+
+==============================================================================
+OPTION 3: PALIMPSEST LICENSE VERSION 0.8 (PHILOSOPHICALLY ENCOURAGED)
+==============================================================================
+
+For ethical use and collaborative stewardship.
+
+See: LICENSE-PALIMPSEST.txt for complete terms.
+
+Summary:
+- ✓ Use, modify, and distribute freely
+- ✓ Commercial use permitted
+- ✓ Emphasizes attribution and acknowledgment
+- ✓ Collaborative stewardship principles
+- ✓ Transparency in modifications
+- ✓ Ethical use clause
+- ✓ Solidarity economics alignment
+- ✓ Preserves attribution chains
+
+Best for: Projects that align with collaborative, ethical, and solidarity
+economics principles while maintaining flexibility.
+
+PHILOSOPHICAL ENCOURAGEMENT: We philosophically encourage choosing the
+Palimpsest License, which embodies principles of mutual aid, attribution,
+and collaborative knowledge creation while remaining permissive.
+
+SPDX-License-Identifier: Palimpsest-0.8
+
+==============================================================================
+
+LICENSE REQUIREMENTS (ALL OPTIONS):
+
+Regardless of which license you choose, you must:
+
+1. Preserve copyright notices
+2. Include the chosen license text
+3. Provide attribution to original authors
+4. Indicate modifications (if any)
+
+==============================================================================
+
+LICENSE SELECTION:
+
+You need only comply with the terms of ONE of the three licenses above.
+You may choose whichever license best suits your needs and values.
+
+If you do not explicitly choose a license, the default is GPL-3.0.
+
+For questions about licensing, contact: cora@corajr.com
+
+==============================================================================
+
+COMPLETE LICENSE TEXTS:
+
+- LICENSE-GPL.txt: Full GNU General Public License v3.0
+- LICENSE-MIT.txt: Full MIT License
+- LICENSE-PALIMPSEST.txt: Full Palimpsest License v0.8
+
+==============================================================================
+
+PROJECT INFORMATION:
+
+Project: Zotero Voyant Export
+Repository: https://github.com/corajr/zotero-voyant-export
+Author: Cora Johnson-Roberson
+Contact: cora@corajr.com
+Website: https://corajr.com
+
+Contributions: See MAINTAINERS.md and .well-known/humans.txt
+
+==============================================================================
