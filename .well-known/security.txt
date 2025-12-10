@@ -1,0 +1,15 @@
+# Security Policy for zotero-voyant-export
+# https://securitytxt.org/
+
+Contact: security@hyperpolymath.org
+Expires: {{EXPIRY_DATE}}
+Encryption: https://hyperpolymath.org/gpg/security.asc
+Preferred-Languages: en, nl
+Canonical: https://github.com/hyperpolymath/zotero-voyant-export/.well-known/security.txt
+Policy: https://github.com/hyperpolymath/zotero-voyant-export/blob/main/SECURITY.md
+
+# Acknowledgments
+Acknowledgments: https://hyperpolymath.org/security/acknowledgments
+
+# Hiring
+Hiring: https://hyperpolymath.org/careers

@@ -1,4 +1,4 @@
-# Zotero Voyant Export
+= Zotero Voyant Export
 
 Export your Zotero collections to Voyant for text analysis.
 
@@ -9,30 +9,30 @@ you collect, organize, cite, and share your research sources." This extension
 helps those with preexisting Zotero collections get a new view on their
 data via Voyant.
 
-## Version 2.0 - Zotero 7 Compatible
+== Version 2.0 - Zotero 7 Compatible
 
 This version has been completely rewritten for Zotero 7 compatibility using modern
 tooling based on the [zoterho-template](https://gitlab.com/extensions-library/zotero/zoterho-template) architecture:
 
-- **ReScript** for type-safe code compilation to JavaScript
-- **Deno** as the runtime environment (no npm dependencies)
-- **CUE** for configuration management and generation
-- **Just** for task automation
-- **web-ext** for extension development and packaging
-- **WebExtension Manifest v2** for Zotero 7 compatibility
+- *ReScript* for type-safe code compilation to JavaScript
+- *Deno* as the runtime environment (no npm dependencies)
+- *CUE* for configuration management and generation
+- *Just* for task automation
+- *web-ext* for extension development and packaging
+- *WebExtension Manifest v2* for Zotero 7 compatibility
 
-## Requirements
+== Requirements
 
 * Zotero 7.0 or higher
 * A collection containing full texts (as PDFs, HTML snapshots, etc.)
 
-## Installation
+== Installation
 
 Download the latest XPI from the releases page. Then open Zotero and select
 Tools menu -> Add-ons. Click the gear icon in the upper right and select
 "Install Add-On From File..."; open the XPI file you just saved.
 
-## Usage
+== Usage
 
 Right-click on the collection you wish to analyze. Select "Export Collection to
 Voyant..." and choose a save location for the corpus as a zip file.
@@ -42,45 +42,45 @@ to [your local Voyant server][local-voyant] -- for collections larger than a
 handful of documents, you'll probably want to host locally). You should then be
 able to see your corpus in the default Voyant view.
 
-## Development
+== Development
 
-### Prerequisites
+=== Prerequisites
 
 This project uses a modern toolchain. Install the following:
 
-1. **Deno** (v1.40+): https://deno.land/
+1. *Deno* (v1.40+): https://deno.land/
    ```bash
    curl -fsSL https://deno.land/install.sh | sh
    ```
 
-2. **Just** command runner: https://github.com/casey/just
+2. *Just* command runner: https://github.com/casey/just
    ```bash
    # macOS/Linux
    curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to ~/.local/bin
    ```
 
-3. **CUE** configuration language: https://cuelang.org/
+3. *CUE* configuration language: https://cuelang.org/
    ```bash
    # macOS
    brew install cue
    # Or download from https://github.com/cue-lang/cue/releases
    ```
 
-### Setup
+=== Setup
 
 ```bash
-# Clone the repository
+= Clone the repository
 git clone https://github.com/corajr/zotero-voyant-export.git
 cd zotero-voyant-export
 
-# Generate configuration files from CUE
+= Generate configuration files from CUE
 just config
 
-# Initialize dependencies
+= Initialize dependencies
 just setup
 ```
 
-### Build Commands
+=== Build Commands
 
 All build commands are managed through `just`. Run `just` to see all available commands:
 
@@ -98,7 +98,7 @@ just clean          # Clean build artifacts
 just info           # Show project information
 ```
 
-### Project Structure
+=== Project Structure
 
 ```
 ├── config/              # CUE configuration source files
@@ -119,72 +119,72 @@ just info           # Show project information
 ├── justfile             # Task automation (replaces Makefile/npm scripts)
 └── README.md            # This file
 
-# Generated files (not in source control):
+= Generated files (not in source control):
 ├── manifest.json        # Generated from config/project.cue
 ├── deno.json           # Generated from config/deno.cue
 ├── rescript.json       # Generated from config/rescript.cue
 └── src/**/*.mjs        # Generated from src/**/*.res
 ```
 
-### How It Works
+=== How It Works
 
-1. **CUE Configuration**: All configuration lives in `config/*.cue` files
+1. *CUE Configuration*: All configuration lives in `config/*.cue` files
    - `just config` exports CUE to JSON (manifest.json, deno.json, rescript.json)
    - Single source of truth for project metadata
 
-2. **ReScript Compilation**: Type-safe ReScript (.res) compiles to JavaScript (.mjs)
+2. *ReScript Compilation*: Type-safe ReScript (.res) compiles to JavaScript (.mjs)
    - Deno runs ReScript compiler via npm: imports
    - In-source build: .mjs files generated alongside .res files
 
-3. **Extension Loading**: Zotero loads the extension via manifest.json
+3. *Extension Loading*: Zotero loads the extension via manifest.json
    - background.mjs executes on startup
    - Context menu added to collections
    - Export functionality triggered by user
 
-4. **Build Automation**: Just handles all tasks
+4. *Build Automation*: Just handles all tasks
    - Configuration generation
    - Compilation
    - Packaging
    - Testing
 
-### Development Workflow
+=== Development Workflow
 
 ```bash
-# 1. Make changes to ReScript files in src/
+= 1. Make changes to ReScript files in src/
 vim src/Exporter.res
 
-# 2. Rebuild and watch for changes
+= 2. Rebuild and watch for changes
 just dev
 
-# 3. Test in Firefox (in another terminal)
+= 3. Test in Firefox (in another terminal)
 just run
 
-# 4. Create production build
+= 4. Create production build
 just package
 ```
 
-### Configuration Management
+=== Configuration Management
 
 All project configuration is managed through CUE files in `config/`:
 
-- **config/project.cue**: Project metadata, version, manifest definition
-- **config/deno.cue**: Deno tasks for running ReScript and web-ext
-- **config/rescript.cue**: ReScript compiler configuration
+- *config/project.cue*: Project metadata, version, manifest definition
+- *config/deno.cue*: Deno tasks for running ReScript and web-ext
+- *config/rescript.cue*: ReScript compiler configuration
 
 To modify configuration:
 1. Edit the appropriate `.cue` file
 2. Run `just config` to regenerate JSON files
 3. Rebuild with `just rebuild`
 
-### Tech Stack
+=== Tech Stack
 
-- **[ReScript](https://rescript-lang.org/)**: Type-safe language compiling to JavaScript
-- **[Deno](https://deno.land/)**: Secure runtime for JavaScript/TypeScript
-- **[CUE](https://cuelang.org/)**: Configuration language with validation
-- **[Just](https://github.com/casey/just)**: Command runner and task automation
-- **[web-ext](https://github.com/mozilla/web-ext)**: Firefox extension development tool
+- *[ReScript](https://rescript-lang.org/)*: Type-safe language compiling to JavaScript
+- *[Deno](https://deno.land/)*: Secure runtime for JavaScript/TypeScript
+- *[CUE](https://cuelang.org/)*: Configuration language with validation
+- *[Just](https://github.com/casey/just)*: Command runner and task automation
+- *[web-ext](https://github.com/mozilla/web-ext)*: Firefox extension development tool
 
-### Credits
+=== Credits
 
 This project's architecture is based on the [zoterho-template](https://gitlab.com/extensions-library/zotero/zoterho-template)
 by the Zotero community, which provides a production-ready framework for building modern Zotero 7 extensions.
@@ -193,7 +193,7 @@ Original extension concept and implementation by Cora Johnson-Roberson.
 
 [local-voyant]: http://docs.voyant-tools.org/resources/run-your-own/voyant-server/
 
-## LICENSE
+== LICENSE
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
