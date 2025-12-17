@@ -25,10 +25,6 @@ jobs:
         include:
           - language: javascript-typescript
             build-mode: none
-          - language: python
-            build-mode: none
-          - language: go
-            build-mode: autobuild
 
     steps:
     - name: Checkout repository

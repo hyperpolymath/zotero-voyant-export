@@ -11,7 +11,7 @@
 (define-public zotero_voyant_export
   (package
     (name "zotero-voyant-export")
-    (version "0.1.0")
+    (version "0.0.4")
     (source (local-file "." "zotero-voyant-export-checkout"
                         #:recursive? #t
                         #:select? (git-predicate ".")))

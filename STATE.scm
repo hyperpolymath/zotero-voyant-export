@@ -9,9 +9,9 @@
 (define metadata
   '((format-version . "1.0.0")
     (created . "2025-12-08")
-    (last-updated . "2025-12-08")
+    (last-updated . "2025-12-17")
     (repository . "hyperpolymath/zotero-voyant-export")
-    (branch . "claude/create-state-scm-01RHKZfVUNAYWGVjztjJXYtj")))
+    (branch . "main")))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; PROJECT CATALOG
@@ -330,8 +330,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define session-notes
-  '((date . "2025-12-08")
-    (session-type . initial-assessment)
+  '((date . "2025-12-17")
+    (session-type . security-review)
     (findings
       ("Repository underwent complete v2.0.0 rewrite using zoterho-template architecture")
       ("ReScript + Deno + CUE is modern, type-safe stack - good architecture choices")
@@ -339,10 +339,83 @@
       ("Documentation is excellent for strategy, lighter on technical how-to")
       ("No tests exist for either project - risk for regression")
       ("Original author noted inability to maintain in 2021, unclear current status"))
+    (security-review-2025-12-17
+      (issues-fixed
+        ("META.scm syntax error - cross-platform-status was invalid Scheme")
+        ("security.txt placeholder - {{EXPIRY_DATE}} replaced with valid ISO 8601 date")
+        ("security-policy.yml logic bug - was checking https:// instead of http://")
+        ("comprehensive-quality.yml - pinned floating action tags to versions")
+        ("dependabot.yml - removed npm ecosystem per Deno-only policy")
+        ("guix.scm version mismatch - synced with VERSION file")
+        ("codeql-analysis.yml - removed unused Python/Go language targets")
+        ("STATE.scm - updated metadata branch reference")))
     (recommendations
       ("Focus on shipping Zotero Export v2.0.0 first")
       ("Split accessibility-tools to separate repository")
       ("Add minimal test suite before release")
       ("Consider finding co-maintainers for sustainability"))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; CURRENT ROADMAP (Updated 2025-12-17)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(define current-roadmap
+  '(
+    ;; IMMEDIATE (Now - 1 week)
+    (immediate
+      (name . "Build & Verify")
+      (tasks
+        ((task . "Install prerequisites: Deno, Just, CUE")
+         (command . "curl -fsSL https://deno.land/install.sh | sh")
+         (status . pending))
+        ((task . "Generate configs from CUE")
+         (command . "just config")
+         (status . pending))
+        ((task . "Compile ReScript to JavaScript")
+         (command . "just build")
+         (status . pending))
+        ((task . "Test extension in Firefox with Zotero 7")
+         (command . "just run")
+         (status . pending))))
+
+    ;; SHORT-TERM (1-4 weeks)
+    (short-term
+      (name . "MVP Release v2.0.0")
+      (tasks
+        ((task . "Manual QA with various collection sizes"))
+        ((task . "Create XPI package")
+         (command . "just package"))
+        ((task . "Write CHANGELOG.md for v2.0.0"))
+        ((task . "Create GitHub release"))
+        ((task . "Submit to Firefox Add-ons (AMO)"))))
+
+    ;; MEDIUM-TERM (1-3 months)
+    (medium-term
+      (name . "Quality & Polish")
+      (tasks
+        ((task . "Add user-facing error notifications"))
+        ((task . "Add export progress indicator"))
+        ((task . "Enhance MODS/Dublin Core metadata completeness"))
+        ((task . "Add basic unit tests for Format.res"))
+        ((task . "Convert remaining JS in accessibility-tools to ReScript"))))
+
+    ;; LONG-TERM (3-6 months)
+    (long-term
+      (name . "Feature Expansion")
+      (tasks
+        ((task . "Additional export formats (CSV, JSON)"))
+        ((task . "Chrome/Edge support via Manifest V3"))
+        ((task . "Direct Voyant Tools upload integration"))
+        ((task . "Split accessibility-tools to own repository"))
+        ((task . "Performance testing with large collections (1000+ items)"))))
+
+    ;; MAINTENANCE (Ongoing)
+    (maintenance
+      (name . "Ongoing")
+      (tasks
+        ((task . "Keep GitHub Actions SHA-pinned and updated"))
+        ((task . "Review security.txt expiry annually"))
+        ((task . "Sync with GitLab mirror"))
+        ((task . "Monitor for Zotero API changes"))))))
 
 ;; END STATE.scm
