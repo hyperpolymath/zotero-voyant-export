@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
+# NOTE: npm ecosystem removed per project policy (Deno only)
 version: 2
 updates:
   - package-ecosystem: "github-actions"
@@ -9,7 +10,3 @@ updates:
       actions:
         patterns:
           - "*"
-  - package-ecosystem: "npm"
-    directory: "/"
-    schedule:
-      interval: "weekly"
