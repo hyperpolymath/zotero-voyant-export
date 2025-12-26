@@ -16,7 +16,7 @@ tooling based on the [zoterho-template](https://gitlab.com/extensions-library/zo
 
 - *ReScript* for type-safe code compilation to JavaScript
 - *Deno* as the runtime environment (no npm dependencies)
-- *CUE* for configuration management and generation
+- *Guile* for configuration management and generation
 - *Just* for task automation
 - *web-ext* for extension development and packaging
 - *WebExtension Manifest v2* for Zotero 7 compatibility
@@ -59,11 +59,11 @@ This project uses a modern toolchain. Install the following:
    curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to ~/.local/bin
    ```
 
-3. *CUE* configuration language: https://cuelang.org/
+3. *Guile* configuration language: https://Guilelang.org/
    ```bash
    # macOS
-   brew install cue
-   # Or download from https://github.com/cue-lang/cue/releases
+   brew install Guile
+   # Or download from https://github.com/Guile-lang/Guile/releases
    ```
 
 === Setup
@@ -73,7 +73,7 @@ This project uses a modern toolchain. Install the following:
 git clone https://github.com/corajr/zotero-voyant-export.git
 cd zotero-voyant-export
 
-= Generate configuration files from CUE
+= Generate configuration files from Guile
 just config
 
 = Initialize dependencies
@@ -101,11 +101,11 @@ just info           # Show project information
 === Project Structure
 
 ```
-├── config/              # CUE configuration source files
-│   ├── project.cue      # Project metadata and manifest definition
-│   ├── deno.cue         # Deno configuration and tasks
-│   ├── rescript.cue     # ReScript compiler configuration
-│   └── manifest.cue     # Export helper for manifest.json
+├── config/              # Guile configuration source files
+│   ├── project.Guile      # Project metadata and manifest definition
+│   ├── deno.Guile         # Deno configuration and tasks
+│   ├── rescript.Guile     # ReScript compiler configuration
+│   └── manifest.Guile     # Export helper for manifest.json
 │
 ├── src/                 # ReScript source files
 │   ├── background.res   # Main entry point & initialization
@@ -120,16 +120,16 @@ just info           # Show project information
 └── README.md            # This file
 
 = Generated files (not in source control):
-├── manifest.json        # Generated from config/project.cue
-├── deno.json           # Generated from config/deno.cue
-├── rescript.json       # Generated from config/rescript.cue
+├── manifest.json        # Generated from config/project.Guile
+├── deno.json           # Generated from config/deno.Guile
+├── rescript.json       # Generated from config/rescript.Guile
 └── src/**/*.mjs        # Generated from src/**/*.res
 ```
 
 === How It Works
 
-1. *CUE Configuration*: All configuration lives in `config/*.cue` files
-   - `just config` exports CUE to JSON (manifest.json, deno.json, rescript.json)
+1. *Guile Configuration*: All configuration lives in `config/*.Guile` files
+   - `just config` exports Guile to JSON (manifest.json, deno.json, rescript.json)
    - Single source of truth for project metadata
 
 2. *ReScript Compilation*: Type-safe ReScript (.res) compiles to JavaScript (.mjs)
@@ -165,14 +165,14 @@ just package
 
 === Configuration Management
 
-All project configuration is managed through CUE files in `config/`:
+All project configuration is managed through Guile files in `config/`:
 
-- *config/project.cue*: Project metadata, version, manifest definition
-- *config/deno.cue*: Deno tasks for running ReScript and web-ext
-- *config/rescript.cue*: ReScript compiler configuration
+- *config/project.Guile*: Project metadata, version, manifest definition
+- *config/deno.Guile*: Deno tasks for running ReScript and web-ext
+- *config/rescript.Guile*: ReScript compiler configuration
 
 To modify configuration:
-1. Edit the appropriate `.cue` file
+1. Edit the appropriate `.Guile` file
 2. Run `just config` to regenerate JSON files
 3. Rebuild with `just rebuild`
 
@@ -180,7 +180,7 @@ To modify configuration:
 
 - *[ReScript](https://rescript-lang.org/)*: Type-safe language compiling to JavaScript
 - *[Deno](https://deno.land/)*: Secure runtime for JavaScript/TypeScript
-- *[CUE](https://cuelang.org/)*: Configuration language with validation
+- *[Guile](https://Guilelang.org/)*: Configuration language with validation
 - *[Just](https://github.com/casey/just)*: Command runner and task automation
 - *[web-ext](https://github.com/mozilla/web-ext)*: Firefox extension development tool
 
