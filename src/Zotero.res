@@ -10,10 +10,10 @@ external debug: string => unit = "Zotero.debug"
 // Zotero.File module
 module File = {
   @val @scope(("window", "Zotero", "File"))
-  external pathToFile: string => {..} = "pathToFile"
+  external pathToFile: string => Firefox.nsIFile = "pathToFile"
 
   @val @scope(("window", "Zotero", "File"))
-  external putContents: ({..}, string) => unit = "putContents"
+  external putContents: (Firefox.nsIFile, string) => unit = "putContents"
 
   @val @scope(("window", "Zotero", "File"))
   external zipDirectory: (string, string) => promise<unit> = "zipDirectory"
@@ -21,10 +21,10 @@ module File = {
 
 // Zotero.getActiveZoteroPane
 @val @scope(("window", "Zotero"))
-external getActiveZoteroPane: unit => Js.Nullable.t<{..}> = "getActiveZoteroPane"
+external getActiveZoteroPane: unit => Js.Nullable.t<zoteroPane> = "getActiveZoteroPane"
 
 // Collection type
-type rec collection = {
+and type rec collection = {
   name: string,
   getChildItems: unit => array<item>,
 }
@@ -51,7 +51,7 @@ and attachment = {
 }
 
 // ZoteroPane methods
-type zoteroPane = {
+and zoteroPane = {
   document: Dom.document,
   loaded: bool,
   show: unit => unit,
@@ -62,6 +62,6 @@ let getZoteroPane = (): option<zoteroPane> => {
   let pane = getActiveZoteroPane()
   switch pane->Js.Nullable.toOption {
   | None => None
-  | Some(p) => Some(p->Obj.magic)
+  | Some(p) => Some(p)
   }
 }

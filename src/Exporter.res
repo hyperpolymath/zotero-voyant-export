@@ -1,48 +1,35 @@
 // Exporter module - Handle collection export to Voyant format
 
-// File system helpers
-let getTmpDir = (): {..} => {
-  %raw(`
-    (function() {
-      const {FileUtils} = ChromeUtils.importESModule("resource://gre/modules/FileUtils.sys.mjs");
-      const tmpDir = FileUtils.getFile("TmpD", ["collection"]);
-      tmpDir.createUnique(0x01, 0o755); // DIRECTORY_TYPE = 0x01
-      return tmpDir;
-    })()
-  `)
+// Get temporary directory using FileUtils
+let getTmpDir = (): Firefox.nsIFile => {
+  let fileUtils = Firefox.FileUtils.get()
+  let tmpDir = fileUtils->Firefox.FileUtils.getFile("TmpD", ["collection"])
+  tmpDir.createUnique(Firefox.nsIFile_DIRECTORY_TYPE, 0o755)
+  tmpDir
 }
 
-let mkdir = (startDir: {..}, dirName: string): {..} => {
-  %raw(`
-    (function(dir, name) {
-      const newDir = dir.clone();
-      newDir.append(name);
-      newDir.create(0x01, 0o755); // DIRECTORY_TYPE = 0x01
-      return newDir;
-    })
-  `)(startDir, dirName)
+// Create subdirectory
+let mkdir = (startDir: Firefox.nsIFile, dirName: string): Firefox.nsIFile => {
+  let newDir = startDir.clone()
+  newDir.append(dirName)
+  newDir.create(Firefox.nsIFile_DIRECTORY_TYPE, 0o755)
+  newDir
 }
 
-let fileInDir = (startDir: {..}, fileName: string): {..} => {
-  %raw(`
-    (function(dir, name) {
-      const newFile = dir.clone();
-      newFile.append(name);
-      return newFile;
-    })
-  `)(startDir, fileName)
+// Get file reference in directory
+let fileInDir = (startDir: Firefox.nsIFile, fileName: string): Firefox.nsIFile => {
+  let newFile = startDir.clone()
+  newFile.append(fileName)
+  newFile
 }
 
-let copyFileTo = (sourceFile: {..}, targetDir: {..}, newName: string): unit => {
-  %raw(`
-    (function(src, dir, name) {
-      src.copyTo(dir, name);
-    })
-  `)(sourceFile, targetDir, newName)
+// Copy file to directory with new name
+let copyFileTo = (sourceFile: Firefox.nsIFile, targetDir: Firefox.nsIFile, newName: string): unit => {
+  sourceFile.copyTo(targetDir, newName)
 }
 
 // Process a single item
-let processItem = async (item: Zotero.item, dataDir: {..}): unit => {
+let processItem = async (item: Zotero.item, dataDir: Firefox.nsIFile): unit => {
   Zotero.debug(`Processing item ${Belt.Int.toString(item.id)}`)
 
   try {
@@ -54,7 +41,8 @@ let processItem = async (item: Zotero.item, dataDir: {..}): unit => {
         let pathResult = await att.getFilePathAsync()
 
         switch pathResult->Js.Nullable.toOption {
-        | None => Zotero.debug(`No file path for attachment on item ${Belt.Int.toString(item.id)}`)
+        | None =>
+          Zotero.debug(`No file path for attachment on item ${Belt.Int.toString(item.id)}`)
         | Some(attPath) => {
             let attFile = Zotero.File.pathToFile(attPath)
             let itemID = Belt.Int.toString(item.id)
@@ -80,7 +68,10 @@ let processItem = async (item: Zotero.item, dataDir: {..}): unit => {
       }
     }
   } catch {
-  | exn => Zotero.debug(`Error processing item ${Belt.Int.toString(item.id)}: ${exn->Obj.magic}`)
+  | exn =>
+    Zotero.debug(
+      `Error processing item ${Belt.Int.toString(item.id)}: ${exn->Obj.magic}`,
+    )
   }
 }
 
@@ -110,7 +101,7 @@ let doExport = async (): unit => {
           | None => Zotero.debug("[Voyant Export] Export cancelled")
           | Some(file) => {
               let outDir = getTmpDir()
-              Zotero.debug(`[Voyant Export] Using tmp dir: ${outDir->Obj.magic}`)
+              Zotero.debug(`[Voyant Export] Using tmp dir: ${outDir.path}`)
 
               // Create bagit.txt
               let bagitFile = fileInDir(outDir, "bagit.txt")
@@ -125,11 +116,9 @@ let doExport = async (): unit => {
               }
 
               // Zip the directory
-              let outDirPath = %raw(`outDir.path`)
-              let outFilePath = %raw(`file.path`)
-              await Zotero.File.zipDirectory(outDirPath, outFilePath)
+              await Zotero.File.zipDirectory(outDir.path, file.path)
 
-              Zotero.debug(`[Voyant Export] Export complete: ${outFilePath}`)
+              Zotero.debug(`[Voyant Export] Export complete: ${file.path}`)
             }
           }
         }
