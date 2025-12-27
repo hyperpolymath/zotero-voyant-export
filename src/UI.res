@@ -53,16 +53,60 @@ let menuItemExists = (menu: Dom.element): bool => {
   ->Option.isSome
 }
 
-// Create menu item element
+// Create menu item element with accessibility features
 let createMenuItem = (doc: Dom.document, onclick: unit => unit): Dom.element => {
   let menuitem = doc->Dom.Document.createElement("menuitem")
+
+  // Basic attributes
   menuitem->Dom.Element.setAttribute("id", "voyant-export")
   menuitem->Dom.Element.setAttribute("label", "Export Collection to Voyant...")
 
+  // Accessibility attributes (WCAG 2.1 compliance)
+  menuitem->Dom.Element.setAttribute("role", "menuitem")
+  menuitem->Dom.Element.setAttribute("aria-label", "Export Collection to Voyant Tools")
+  menuitem->Dom.Element.setAttribute("aria-describedby", "voyant-export-desc")
+  menuitem->Dom.Element.setAttribute("tabindex", "0")
+
+  // Keyboard accessibility
+  menuitem->Dom.Element.setAttribute("accesskey", "v")
+
   // Set onclick handler - this is the one remaining raw JS we need
-  menuitem->%raw(`function(el, handler) { el.onclick = handler }`)
+  menuitem->%raw(`function(el, handler) {
+    el.onclick = handler;
+    // Also support keyboard activation
+    el.onkeydown = function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        handler();
+      }
+    };
+  }`)
 
   menuitem
+}
+
+// Load CSS stylesheet into document
+let loadStylesheet = (doc: Dom.document): unit => {
+  // Check if stylesheet already loaded
+  let existingStyle = doc->Dom.Document.getElementById("voyant-export-styles")
+
+  switch existingStyle->Js.Nullable.toOption {
+  | Some(_) => () // Already loaded
+  | None => {
+      // Create link element for external stylesheet
+      let link = doc->Dom.Document.createElement("link")
+      link->Dom.Element.setAttribute("id", "voyant-export-styles")
+      link->Dom.Element.setAttribute("rel", "stylesheet")
+      link->Dom.Element.setAttribute("type", "text/css")
+      link->Dom.Element.setAttribute("href", "chrome://zotero-voyant-export/content/ui/styles.css")
+
+      // Append to document head
+      let head = doc->%raw(`function(d) { return d.head || d.documentElement }`)
+      head->Dom.Element.appendChild(link)
+
+      Zotero.debug("[Voyant Export] Stylesheet loaded")
+    }
+  }
 }
 
 // Insert export menu item
@@ -72,9 +116,15 @@ let insertExportMenuItem = (onclick: unit => unit): unit => {
   | Some(menu) =>
     if !menuItemExists(menu) {
       let doc = menu->Dom.Element.ownerDocument
+
+      // Load stylesheet first
+      loadStylesheet(doc)
+
+      // Create and insert menu item
       let menuitem = createMenuItem(doc, onclick)
       menu->Dom.Element.appendChild(menuitem)
-      Zotero.debug("[Voyant Export] Menu item added")
+
+      Zotero.debug("[Voyant Export] Menu item added with accessibility features")
     }
   }
 }
