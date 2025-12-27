@@ -3,34 +3,57 @@
 let modsNS = "http://www.loc.gov/mods/v3"
 let dcNS = "http://purl.org/dc/elements/1.1/"
 
-// XML generation helpers
+// DOMParser type
+type domParser = {parseFromString: (string, string) => Dom.document}
+
+@new
+external makeDOMParser: unit => domParser = "DOMParser"
+
+// XMLSerializer type
+type xmlSerializer = {serializeToString: Dom.document => string}
+
+@new
+external makeXMLSerializer: unit => xmlSerializer = "XMLSerializer"
+
+// Create XML document from string
 let createXMLDocument = (rootElement: string): Dom.document => {
-  let parser = %raw(`new DOMParser()`)
+  let parser = makeDOMParser()
   let xmlDecl = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-  parser->%raw(`function(p) { return p.parseFromString }`)(`${xmlDecl}${rootElement}`, "text/xml")
+  parser.parseFromString(`${xmlDecl}${rootElement}`, "text/xml")
 }
 
+// Create element with namespace
 let createElement = (doc: Dom.document, namespace: string, tagName: string): Dom.element => {
-  doc->%raw(`function(d, ns, tag) { return d.createElementNS(ns, tag) }`)
+  doc->Dom.Document.createElementNS(namespace, tagName)
 }
 
+// Create text node
 let createTextNode = (doc: Dom.document, text: string): Dom.node => {
-  doc->%raw(`function(d, t) { return d.createTextNode(t) }`)
+  doc->Dom.Document.createTextNode(text)
 }
 
+// Append child to parent
 let appendChild = (parent: Dom.element, child: Dom.node): unit => {
-  parent->%raw(`function(p, c) { p.appendChild(c) }`)
+  parent->Dom.Element.appendChild(child)
 }
 
+// Set attribute on element
 let setAttribute = (element: Dom.element, name: string, value: string): unit => {
-  element->%raw(`function(e, n, v) { e.setAttribute(n, v) }`)
+  element->Dom.Element.setAttribute(name, value)
 }
 
+// Serialize document to string
 let serializeToString = (doc: Dom.document): string => {
-  let serializer = %raw(`new XMLSerializer()`)
-  serializer->%raw(`function(s, d) { return s.serializeToString(d) }`)
+  let serializer = makeXMLSerializer()
+  serializer.serializeToString(doc)
 }
 
+// Get document element
+let getDocumentElement = (doc: Dom.document): Dom.element => {
+  doc->%raw(`function(d) { return d.documentElement }`)
+}
+
+// Map property to XML element
 let mapProperty = (
   doc: Dom.document,
   ns: string,
@@ -43,7 +66,7 @@ let mapProperty = (
   | Some(value) => {
       let element = createElement(doc, ns, elementName)
       let textNode = createTextNode(doc, value)
-      appendChild(element, textNode->Obj.magic)
+      appendChild(element, textNode)
       appendChild(parent, element->Obj.magic)
     }
   }
@@ -54,7 +77,7 @@ let generateMODS = (item: Zotero.item): string => {
   let modsEl = `<mods xmlns="${modsNS}" xmlns:mods="${modsNS}" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:schemaLocation="${modsNS} http://www.loc.gov/standards/mods/mods.xsd" />`
 
   let doc = createXMLDocument(modsEl)
-  let mods = doc->%raw(`function(d) { return d.documentElement }`)
+  let mods = getDocumentElement(doc)
 
   // Add title
   let title = item.getDisplayTitle()
@@ -87,7 +110,7 @@ let generateDC = (item: Zotero.item): string => {
   let dcEl = `<oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="${dcNS}" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd" />`
 
   let doc = createXMLDocument(dcEl)
-  let dc = doc->%raw(`function(d) { return d.documentElement }`)
+  let dc = getDocumentElement(doc)
 
   mapProperty(doc, dcNS, dc, "dc:identifier", Some(item.libraryKey))
 
