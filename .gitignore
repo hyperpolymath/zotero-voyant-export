@@ -1,8 +1,3 @@
-# Generated configuration files (generated from CUE)
-/manifest.json
-/deno.json
-/rescript.json
-
 # Generated JavaScript from ReScript
 src/**/*.mjs
 src/**/*.mjsi
